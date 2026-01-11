@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MERN Stack Exam Question Bank</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #f94144;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 2rem;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .term-selector {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .term-btn {
+            padding: 0.8rem 1.8rem;
+            background-color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--box-shadow);
+            color: var(--dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .term-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .term-btn:hover::before {
+            left: 100%;
+        }
+
+        .term-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .term-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .exam-content {
+            display: none;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .exam-content.active {
+            display: block;
+        }
+
+        .term-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+            font-size: 2rem;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 0.8rem;
+        }
+
+        .term-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+
+        .parts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .part-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border-top: 5px solid var(--primary);
+        }
+
+        .part-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .part-card:nth-child(2) {
+            border-top-color: var(--secondary);
+        }
+
+        .part-card:nth-child(3) {
+            border-top-color: var(--accent);
+        }
+
+        .part-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+        .part-title i {
+            margin-right: 0.8rem;
+            color: var(--primary);
+        }
+
+        .part-card:nth-child(2) .part-title i {
+            color: var(--secondary);
+        }
+
+        .part-card:nth-child(3) .part-title i {
+            color: var(--accent);
+        }
+
+        .part-description {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn i {
+            margin-right: 0.5rem;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--light-gray);
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .github-link {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .github-link:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+
+        .highlight {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .parts-container {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .term-btn {
+                padding: 0.7rem 1.5rem;
+                font-size: 1rem;
+            }
+
+            .parts-container {
+                grid-template-columns: 1fr;
+            }
+
+            .part-card {
+                padding: 1.5rem;
+            }
+
+            .term-title {
+                font-size: 1.7rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            header {
+                padding: 1.5rem 1rem;
+                border-radius: 0 0 20px 20px;
+            }
+
+            .term-selector {
+                gap: 0.7rem;
+            }
+
+            .term-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+
+            .part-title {
+                font-size: 1.5rem;
+            }
+
+            .btn {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Loading animation for cards */
+        .part-card {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .part-card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .part-card:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        /* Tooltip for links */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+            font-weight: normal;
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--dark) transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MERN Stack Examination Question Bank</h1>
+        <p class="subtitle">A comprehensive collection of reference questions for MERN stack developers. Organized by term and part for easy access and study.</p>
+    </header>
+
+    <div class="container">
+        <div class="term-selector">
+            <button class="term-btn active" data-term="first">First Term Exam</button>
+            <button class="term-btn" data-term="second">Second Term Exam</button>
+            <button class="term-btn" data-term="third">Third Term Exam</button>
+        </div>
+
+        <!-- First Term Content -->
+        <div id="first-term" class="exam-content active">
+            <h2 class="term-title">First Term Examination Questions</h2>
+            <div class="parts-container">
+                <div class="part-card">
+                    <h3 class="part-title"><i class="fas fa-file-alt"></i> Part A</h3>
+                    <p class="part-description">Basic concepts and fundamental questions about MERN stack development. Focus on core principles and basic implementation.</p>
+                    <a href="https://github.com/Avodha-Mern-Stack/mern-stack-examination-question-bank/blob/master/First-Term-Exam-Questions/A-Part-Questions/README.md" target="_blank" class="btn tooltip">
+                        <i class="fas fa-external-link-alt"></i> View Questions
+                        <span class="tooltiptext">Contains basic MERN stack concepts and foundational questions</span>
+                    </a>
+                </div>
+                <div class="part-card">
+                    <h3 class="part-title"><i class="fas fa-code"></i> Part B</h3>
+                    <p class="part-description">Intermediate level questions focusing on implementation details, code examples, and problem-solving scenarios.</p>
+                    <a href="https://github.com/Avodha-Mern-Stack/mern-stack-examination-question-bank/blob/master/First-Term-Exam-Questions/B-Part-Questions/README.md" target="_blank" class="btn tooltip">
+                        <i class="fas fa-external-link-alt"></i> View Questions
+                        <span class="tooltiptext">Contains intermediate MERN stack implementation questions</span>
+                    </a>
+                </div>
+                <div class="part-card">
+                    <h3 class="part-title"><i class="fas fa-project-diagram"></i> Part C</h3>
+                    <p class="part-description">Advanced questions covering complex scenarios, full-stack implementations, and real-world project-based problems.</p>
+                    <a href="https://github.com/Avodha-Mern-Stack/mern-stack-examination-question-bank/blob/master/First-Term-Exam-Questions/C-Part-Questions/README.md" target="_blank" class="btn tooltip">
+                        <i class="fas fa-external-link-alt"></i> View Questions
+                        <span class="tooltiptext">Contains advanced project-based MERN stack questions</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Term Content -->
+        <div id="second-term" class="exam-content">
+            <h2 class="term-title">Second Term Examination Questions</h2>
+            <div class="parts-container">
+                <div class="part-card">
+                    <h3 class="part-title"><i class="fas fa-file-alt"></i> Part A</h3>
+                    <p class="part-description">Advanced concepts and in-depth questions about MERN stack development. Focus on optimization and performance.</p>
+                    <a href="https://github.com/Avodha-Mern-Stack/mern-stack-examination-question-bank/blob/master/Second-Term-Exam-Questions/A-Part-Questions/README.md" target="_blank" class="btn tooltip">
+                        <i class="fas fa-external-link-alt"></i> View Questions
+                        <span class="tooltiptext">Contains advanced MERN stack concepts and optimization questions</span>
+                    </a>
+                </div>
+                <div class="part-card">
+                    <h3 class="part-title"><i class="fas fa-code"></i> Part B</h3>
+                    <p class="part-description">Complex implementation questions focusing on advanced patterns, state management, and API design.</p>
+                    <a href="https://github.com/Avodha-Mern-Stack/mern-stack-examination-question-bank/blob/master/Second-Term-Exam-Questions/B-Part-Questions/README.md" target="_blank" class="btn tooltip">
+                        <i class="fas fa-external-link-alt"></i> View Questions
+                        <span class="tooltiptext">Contains complex MERN stack implementation questions</span>
+                    </a>
+                </div>
+                <div class="part-card">
+                    <h3 class="part-title"><i class="fas fa-project-diagram"></i> Part C</h3>
+                    <p class="part-description">Expert-level questions covering enterprise scenarios, advanced architectures, and complex integrations.</p>
+                    <a href="https://github.com/Avodha-Mern-Stack/mern-stack-examination-question-bank/blob/master/Second-Term-Exam-Questions/C-Part-Questions/README.md" target="_blank" class="btn tooltip">
+                        <i class="fas fa-external-link-alt"></i> View Questions
+                        <span class="tooltiptext">Contains expert-level enterprise MERN stack questions</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Third Term Content -->
+        <div id="third-term" class="exam-content">
+            <h2 class="term-title">Third Term Examination Questions</h2>
+            <div class="parts-container">
+                <div class="part-card">
+                    <h3 class="part-title"><i class="fas fa-file-alt"></i> Part A</h3>
+                    <p class="part-description">Master-level concepts and comprehensive questions about full-stack development with MERN.</p>
+                    <a href="https://github.com/Avodha-Mern-Stack/mern-stack-examination-question-bank/blob/master/Third-Term-Exam-Questions/A-Part-Questions/README.md" target="_blank" class="btn tooltip">
+                        <i class="fas fa-external-link-alt"></i> View Questions
+                        <span class="tooltiptext">Contains master-level MERN stack concepts and comprehensive questions</span>
+                    </a>
+                </div>
+                <div class="part-card">
+                    <h3 class="part-title"><i class="fas fa-code"></i> Part B</h3>
+                    <p class="part-description">Master implementation questions focusing on scalability, security, and deployment strategies.</p>
+                    <a href="https://github.com/Avodha-Mern-Stack/mern-stack-examination-question-bank/blob/master/Third-Term-Exam-Questions/B-Part-Questions/README.md" target="_blank" class="btn tooltip">
+                        <i class="fas fa-external-link-alt"></i> View Questions
+                        <span class="tooltiptext">Contains master-level MERN stack implementation questions</span>
+                    </a>
+                </div>
+                <div class="part-card">
+                    <h3 class="part-title"><i class="fas fa-project-diagram"></i> Part C</h3>
+                    <p class="part-description">Capstone project questions covering complete application development from concept to deployment.</p>
+                    <a href="https://github.com/Avodha-Mern-Stack/mern-stack-examination-question-bank/blob/master/Third-Term-Exam-Questions/C-Part-Questions/README.md" target="_blank" class="btn tooltip">
+                        <i class="fas fa-external-link-alt"></i> View Questions
+                        <span class="tooltiptext">Contains capstone project questions for complete MERN applications</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>MERN Stack Examination Question Bank &copy; <span class="highlight">Avodha</span> | 
+                <a href="https://github.com/Avodha-Mern-Stack/mern-stack-examination-question-bank" target="_blank" class="github-link">
+                    <i class="fab fa-github"></i> View on GitHub
+                </a>
+            </p>
+            <p style="margin-top: 0.5rem; font-size: 0.85rem;">This resource is designed to help students prepare for MERN stack examinations with organized question banks.</p>
+        </div>
+    </div>
+
+    <script>
+        // DOM elements
+        const termButtons = document.querySelectorAll('.term-btn');
+        const examContents = document.querySelectorAll('.exam-content');
+
+        // Function to switch between terms
+        function switchTerm(term) {
+            // Remove active class from all buttons and contents
+            termButtons.forEach(btn => btn.classList.remove('active'));
+            examContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked button
+            document.querySelector(`.term-btn[data-term="${term}"]`).classList.add('active');
+            
+            // Show corresponding content
+            document.getElementById(`${term}-term`).classList.add('active');
+            
+            // Add animation effect to cards
+            const cards = document.querySelectorAll(`#${term}-term .part-card`);
+            cards.forEach((card, index) => {
+                card.style.animation = 'none';
+                setTimeout(() => {
+                    card.style.animation = `fadeIn 0.5s ease-out ${index * 0.1}s forwards`;
+                }, 10);
+            });
+        }
+
+        // Add click event listeners to term buttons
+        termButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const term = button.getAttribute('data-term');
+                switchTerm(term);
+            });
+        });
+
+        // Add hover effect to buttons
+        termButtons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                if (!this.classList.contains('active')) {
+                    this.style.transform = 'translateY(-3px)';
+                    this.style.boxShadow = '0 12px 22px rgba(0, 0, 0, 0.15)';
+                }
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('active')) {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = 'var(--box-shadow)';
+                }
+            });
+        });
+
+        // Add click animation to cards
+        document.querySelectorAll('.part-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Only trigger if not clicking on a link
+                if (e.target.tagName !== 'A' && !e.target.closest('a')) {
+                    this.style.animation = 'pulse 0.5s';
+                    setTimeout(() => {
+                        this.style.animation = '';
+                    }, 500);
+                }
+            });
+        });
+
+        // Initialize with first term active
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add loading animation to cards on first load
+            const firstTermCards = document.querySelectorAll('#first-term .part-card');
+            firstTermCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+            
+            // Add subtle animation to header on load
+            const header = document.querySelector('header');
+            setTimeout(() => {
+                header.style.transform = 'translateY(0)';
+                header.style.opacity = '1';
+            }, 100);
+        });
+
+        // Responsive adjustments
+        function adjustLayout() {
+            const container = document.querySelector('.parts-container');
+            if (window.innerWidth < 768) {
+                container.style.gap = '1.5rem';
+            } else {
+                container.style.gap = '2rem';
+            }
+        }
+
+        // Call on load and resize
+        window.addEventListener('load', adjustLayout);
+        window.addEventListener('resize', adjustLayout);
+    </script>
+</body>
+</html>
